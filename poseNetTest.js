@@ -6,22 +6,33 @@ const contentWidth = 800;
 const contentHeight = 600;
 let model;
 
+const handTrackJsModel = {
+    flipHorizontal: true,   // flip e.g for video
+    maxNumBoxes: 2,        // maximum number of boxes to detect
+    iouThreshold: 0.5,      // ioU threshold for non-max suppression
+    scoreThreshold: 0.6,    // confidence threshold for predictions.
+};
 
 
 bindPage();
 
+handTrack.load(handTrackJsModel).then(lmodel => {
+    // detect objects in the image.
+    model = lmodel
+    document.getElementById('message').innerText = 'loaded!';
+});
+
+
 async function bindPage() {
-    let loadHandTrackModel;
     const net = await posenet.load();
     let video;
     try {
-        loadHandTrackModel = await setHandTrackModel();
         video = await loadVideo();
     } catch(e) {
         console.error(e);
         return;
     }
-    detectPoseInRealTime(video, net, loadHandTrackModel);
+    detectPoseInRealTime(video, net);
 }
 
 
@@ -51,18 +62,10 @@ async function setupCamera() {
     }
 }
 
-function detectPoseInRealTime(video, net, loadHandTrackModel) {
+function detectPoseInRealTime(video, net) {
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const flipHorizontal = true;
-
-    // used in Handtrackjs
-    const options = {
-        flipHorizontal: true,   // flip e.g for video
-        maxNumBoxes: 2,        // maximum number of boxes to detect
-        iouThreshold: 0.5,      // ioU threshold for non-max suppression
-        scoreThreshold: 0.7,    // confidence threshold for predictions.
-    };
 
 
     async function poseDetectionFrame() {
@@ -105,6 +108,7 @@ function detectPoseInRealTime(video, net, loadHandTrackModel) {
             requestAnimationFrame(predictHands);
         });
     }
+
     predictHands();
     poseDetectionFrame();
 }
