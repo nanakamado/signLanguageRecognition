@@ -254,6 +254,8 @@
 
         renderPredictions(predictions, canvas, context, mediasource) {
 
+            const coordinateParam = 80
+
             context.clearRect(0, 0, canvas.width, canvas.height);
             canvas.width = mediasource.width;
             canvas.height = mediasource.height;
@@ -273,8 +275,7 @@
                 context.beginPath();
                 context.fillStyle = "rgba(255, 255, 255, 0.6)";
                 context.fillRect(predictions[i].bbox[0], predictions[i].bbox[1] - 17, predictions[i].bbox[2], 17);
-                context.rect(...predictions[i].bbox);
-
+                context.rect(predictions[i].bbox[0] - coordinateParam ,predictions[i].bbox[1] - coordinateParam , predictions[i].bbox[3] + coordinateParam , predictions[i].bbox[3] + coordinateParam);
                 // draw a dot at the center of bounding box
 
 
