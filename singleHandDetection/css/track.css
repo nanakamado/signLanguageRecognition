@@ -1,9 +1,5 @@
 body {
-    padding: 20px;
-}
-
-.p20 {
-    padding: 20px;
+    margin: 20px;
 }
 
 .canvasbox {
@@ -34,6 +30,7 @@ body {
 }
 
 .updatenote {
+    margin-left: 200px;
     padding: 10px;
     background: rgb(245, 147, 20);
     color: white;
