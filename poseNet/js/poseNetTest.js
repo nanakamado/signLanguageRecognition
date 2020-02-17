@@ -2,8 +2,8 @@ const imageScaleFactor = 0.2;
 const outputStride = 16;
 const flipHorizontal = false;
 const stats = new Stats();
-const contentWidth = 800;
-const contentHeight = 600;
+const contentWidth = 480;
+const contentHeight = 270;
 let model;
 
 const handTrackJsModel = {
