@@ -1,0 +1,37 @@
+<div id="message">loading model...</div>
+<canvas id="mycanvas" width="640" height="480"></canvas>
+<video id="myvideo" width="640" height="480"></video>
+
+<script src="https://cdn.jsdelivr.net/npm/handtrackjs@0.0.13/dist/handtrack.min.js"></script>
+<script>
+    const canvas = document.getElementById('mycanvas');
+    const context = canvas.getContext('2d');
+    const video = document.getElementById('myvideo');
+    let model;
+    const options = {
+        flipHorizontal: true,   // flip e.g for video
+        maxNumBoxes: 3,        // maximum number of boxes to detect
+        iouThreshold: 0.5,      // ioU threshold for non-max suppression
+        scoreThreshold: 0.7,    // confidence threshold for predictions.
+    };
+    handTrack.load(options).then(l_model => {
+        model = l_model;
+        document.getElementById('message').innerText = 'loaded!';
+        handTrack.startVideo(video).then(function (status) {
+            if (status) {
+                console.log("video started", status);
+                runDetection();
+            } else {
+                console.log("video error", status);
+            }
+        });
+    });
+
+    function runDetection() {
+        model.detect(video).then(predictions => {
+            console.log("Predictions: ", predictions);
+            model.renderPredictions(predictions, canvas, context, video);
+            requestAnimationFrame(runDetection);
+        });
+    }
+</script>

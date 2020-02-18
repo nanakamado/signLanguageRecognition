@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://unpkg.com/carbon-components@latest/css/carbon-components.css" />
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+
+<body>
+<div class="status">
+    <div>status: </div>
+    <div id="updatenote" class="updatenote"> loading model ..</div>
+</div>
+<div class="button">
+    <button  id="trackbutton" class="bx--btn bx--btn--secondary" type="button" disabled>
+        Video ON
+    </button>
+    <!--    <button  id="predictbutton" class="bx&#45;&#45;btn bx&#45;&#45;btn&#45;&#45;secondary" type="button">-->
+    <!--        Predict-->
+    <!--    </button>-->
+</div>
+<div class="video">
+    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+    <canvas id="canvas" class="border canvasbox"></canvas>
+</div>
+
+<script src="https://unpkg.com/carbon-components@latest/scripts/carbon-components.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@0.13.5"></script>
+<script src="js/singleHandDetection.js"> </script>
+<script src="js/script.js"></script>
+
+</body>
+
+</html>
