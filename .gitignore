@@ -1,3 +1,5 @@
 key.js
-test.html
 .idea
+js/node_modules
+js/package.json
+js/package-lock.json

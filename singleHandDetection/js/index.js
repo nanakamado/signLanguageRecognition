@@ -2,29 +2,26 @@ const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const context = canvas.getContext("2d");
 let trackButton = document.getElementById("trackbutton");
-let nextImageButton = document.getElementById("nextimagebutton");
 let updateNote = document.getElementById("updatenote");
 
-let imgindex = 1
+let imgindex = 1;
 let isVideo = false;
 let model = null;
 
-// video.width = 500
-// video.height = 400
 
 const modelParams = {
     flipHorizontal: true,   // flip e.g for video
     maxNumBoxes: 1,        // maximum number of boxes to detect
     iouThreshold: 0.5,      // ioU threshold for non-max suppression
     scoreThreshold: 0.55,    // confidence threshold for predictions.
-}
+};
 
 function startVideo() {
     handTrack.startVideo(video).then(function (status) {
         console.log("video started", status);
         if (status) {
             updateNote.innerText = "Video started. Now tracking"
-            isVideo = true
+            isVideo = true;
             runDetection()
         } else {
             updateNote.innerText = "Please enable video"
@@ -34,11 +31,11 @@ function startVideo() {
 
 function toggleVideo() {
     if (!isVideo) {
-        updateNote.innerText = "Starting video"
+        updateNote.innerText = "Starting video";
         startVideo();
     } else {
-        updateNote.innerText = "Stopping video"
-        handTrack.stopVideo(video)
+        updateNote.innerText = "Stopping video";
+        handTrack.stopVideo(video);
         isVideo = false;
         updateNote.innerText = "Video stopped"
     }
@@ -62,10 +59,11 @@ function runDetection() {
 }
 
 
-// Load the model.
+// Load handtrack model
 handTrack.load(modelParams).then(lmodel => {
     // detect objects in the image.
-    model = lmodel
-    updateNote.innerText = "Loaded Model!"
-    trackButton.disabled = false
+    model = lmodel;
+    updateNote.innerText = "Loaded Model!";
+    trackButton.disabled = false;
+    signModel = tf.loadModel(signModelPath)
 });
