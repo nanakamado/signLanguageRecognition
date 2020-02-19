@@ -1,13 +1,14 @@
 const video = document.getElementById("myvideo");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const coordinateParam = 80;
 let trackButton = document.getElementById("trackbutton");
 // let predictButton = document.getElementById("predictbutton");
 let updateNote = document.getElementById("updatenote");
 let isVideo = false;
 let handModel = null;
 let signModel = null;
-
+let trackBox = null;
 
 //hand tracking params
 const modelParams = {
@@ -59,8 +60,11 @@ trackButton.addEventListener("click", function(){
 
 function runDetection() {
     handModel.detect(video).then(predictions => {
+        predictions.forEach(prediction => {
+            trackBox = prediction.bbox
+        });
         if (predictions.length !== 0){
-            signPredict()
+            signPredict(trackBox)
         }
         handModel.renderPredictions(predictions, canvas, ctx, video);
         if (isVideo) {
@@ -72,8 +76,9 @@ function runDetection() {
 
 //--------sign predict--------
 //predict
-async function signPredict(){
-    let tensor = captureWebcam();
+async function signPredict(trackBox){
+
+    let tensor = captureWebcam(trackBox);
     let prediction = await signModel.predict(tensor).data();
     let results = Array.from(prediction)
         .map(function(p,i){
@@ -84,6 +89,7 @@ async function signPredict(){
         }).sort(function(a,b){
             return b.probability-a.probability;
         }).slice(0,1);
+    console.log("***********************")
     results.forEach(function(p){
         if (p.probability > 0.3) {
             ctx.font = "32px Arial";
@@ -94,12 +100,16 @@ async function signPredict(){
 }
 
 //to canvas
-function captureWebcam() {
+function captureWebcam(trackBox) {
     // Todo ここをhand trackingで取得したエリアに変更
     canvas.width  = video.width;
     canvas.height = video.height;
 
-    ctx.drawImage(video, 0, 0, video.width, video.height);
+    let detectX = trackBox[0];
+    let detectY = trackBox[1];
+    let detectHight = trackBox[3];
+
+    ctx.drawImage(video, detectX + coordinateParam, detectY + coordinateParam, detectHight + coordinateParam, detectHight+ coordinateParam);
     tensor_image = preprocessImage(canvas);
 
     return tensor_image;
