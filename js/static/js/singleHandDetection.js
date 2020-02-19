@@ -255,7 +255,7 @@
 
         renderPredictions(predictions, canvas, context, mediasource) {
 
-            const coordinateParam = 80
+            const coordinateParam = 80;
 
             context.clearRect(0, 0, canvas.width, canvas.height);
             canvas.width = mediasource.width;
